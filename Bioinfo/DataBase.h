@@ -1,0 +1,44 @@
+#ifndef DATABASE_H
+#define DATABASE_H
+
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+
+
+#include "MapEdge.h"
+
+using namespace std;
+
+
+//this is singleton class where all our data structures relevant for our program will be stored
+
+class DataBase
+{
+public:
+    ~DataBase()
+    {
+        instanceFlag = false;
+        for(auto& gE : graphEdges)
+        {
+          delete gE.second;
+        }
+    }
+
+    static DataBase* getInstance();
+    MapEdge* getEdge(int,int);
+    void putEdge(MapEdge*);
+
+
+    unordered_map <string,MapEdge*> graphEdges;
+    vector<vector<int>> neighbors;
+
+
+private:
+    DataBase();
+
+    static bool instanceFlag;
+    static DataBase *single;
+};
+
+#endif // DATABASE_H
