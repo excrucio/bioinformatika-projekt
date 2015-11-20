@@ -26,12 +26,16 @@ public:
     }
 
     static DataBase* getInstance();
-    MapEdge* getEdge(int,int);
+
+    MapEdge* getEdge(int idA,int idB);
     void putEdge(MapEdge*);
+    vector<int> getNeighbors(int id);
+    void makeNeighbors(int idA, int idB);
 
 
     unordered_map <string,MapEdge*> graphEdges;
-    vector<vector<int>> neighbors;
+    unordered_map<int,vector<int>> neighbors;
+    unordered_map<int,vector<int>> containedFragments;
 
 
 private:
