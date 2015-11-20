@@ -7,29 +7,26 @@
 #include "TransitiveEdgeRemover.h"
 #include "LayoutWriter.h"
 #include "DataBase.h"
+#include "GeneralFunctions.h"
 
 
-void printVector(std::vector<int> v, int a)
-{
-    std::cout<<"susjeda "<<a<<": "<<v.size()<<std::endl;
-    for(unsigned int i = 0; i<v.size();i++)
-        std::cout<<v[i];
-    std::cout<<std::endl;
-}
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    GeneralFunctions *f = new GeneralFunctions;
     GraphReader *r = new GraphReader;
+
     r->testGraphReader();
-
-
-
-
+    DataBase *b = DataBase::getInstance();
+    for (int i = 1; i<14; i++)
+        f->printVector(b->getNeighbors(i),i);
 
 
     delete r;
+    delete f;
+    f=NULL;
     r=NULL;
     return a.exec();
 }

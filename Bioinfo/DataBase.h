@@ -28,11 +28,20 @@ public:
     static DataBase* getInstance();
 
     MapEdge* getEdge(int idA,int idB);
-    void putEdge(MapEdge*);
-    vector<int> getNeighbors(int id);
-    void makeNeighbors(int idA, int idB);
-    void eraseNeighbor(int idA, int idB);
-    void addContained(int containedFragment, int containerFragment);
+    void putEdge(MapEdge*); //puts all edge info in database (graphEdges)
+
+    vector<int> getNeighbors(int id);//gets all the neighbors of vertex with id (neighbors)
+
+    void makeNeighbors(int idA, int idB);//makes an edge between vertexes A and B. (neighbors) It doesn't
+                                        //matter the order of vertexes A & B.
+                                        //void makeNeighbors(A,B) == void makeNeighbors(B,A), so call only once
+
+    void eraseNeighbor(int idA, int idB);//removes the edge between vertexes A & B (neighbors)
+                                        //eraseNeighbor(A, B)  == eraseNeighbor(B, A), so call this function only once.
+
+    void addContained(int containedFragment, int containerFragment); //adds container fregment in
+                                                                     //map containedFragments under key
+                                                                     //containedFragment
 
 
     unordered_map <string,MapEdge*> graphEdges;

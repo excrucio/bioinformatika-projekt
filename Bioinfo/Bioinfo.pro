@@ -13,12 +13,14 @@ SOURCES += main.cpp \
     GraphReader.cpp \
     LayoutWriter.cpp \
     TransitiveEdgeRemover.cpp \
-    DataBase.cpp
+    DataBase.cpp \
+    GeneralFunctions.cpp
 
 HEADERS += \
     MapEdge.h \
     GraphReader.h \
     LayoutWriter.h \
     TransitiveEdgeRemover.h \
-    DataBase.h
+    DataBase.h \
+    GeneralFunctions.h
 
