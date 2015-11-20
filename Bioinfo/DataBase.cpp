@@ -58,7 +58,7 @@ void DataBase::makeNeighbors(int idA, int idB)
     if(got!=neighbors.end())
      {
         vector<int> n = neighbors[idA];
-        for(int i = 0; i<n.size(); i++)
+        for(unsigned int i = 0; i<n.size(); i++)
             if (n[i]== idB) return;
         neighbors[idA].push_back(idB);
 
@@ -90,6 +90,54 @@ void DataBase::makeNeighbors(int idA, int idB)
 }
 
 
+void DataBase::eraseNeighbor(int idA, int idB)
+{
+    unordered_map<int,vector<int>>::const_iterator got = neighbors.find (idA);
+    if(got!=neighbors.end())
+    {
+        unsigned int position = 0;
+        bool found = false;
+        vector<int> n = neighbors[idA];
+
+        for(unsigned int i = 0; i<n.size(); i++)
+            if (n[i]== idB)
+            {
+                position = i;
+                found = true;
+                break;
+            }
+
+        if(found)
+        {
+            vector<int>::iterator it = neighbors[idA].begin() + position;
+            neighbors[idA].erase(it);
+        }
+        else return;
+    }
+    else return;
+
+    //nisam napravila provjeru za b. ali se ovaj dio koda
+    //ne bi nikad smio odvrtiti ako ne postoji
+    unsigned int position = 0;
+    bool found = false;
+    vector<int> n = neighbors[idB];
+
+    for(unsigned int i = 0; i<n.size(); i++)
+        if (n[i]== idA)
+        {
+            position = i;
+            found = true;
+            break;
+        }
+
+    if(found)
+    {
+        vector<int>::iterator it = neighbors[idB].begin() + position;
+        neighbors[idB].erase(it);
+    }
+    else return;
+
+}
 
 
 

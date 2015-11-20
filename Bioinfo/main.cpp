@@ -23,16 +23,15 @@ int main(int argc, char *argv[])
 
     DataBase* d = DataBase::getInstance();
     d->makeNeighbors(1,2);
+    d->makeNeighbors(1,3);
+    d->makeNeighbors(1,4);
+    d->makeNeighbors(1,5);
     printVector( d->getNeighbors(1),1);
     printVector( d->getNeighbors(2),2);
-    d->makeNeighbors(1,2);
-    printVector( d->getNeighbors(1),11);
-    printVector( d->getNeighbors(2),21);
-    d->makeNeighbors(1,3);
-    printVector( d->getNeighbors(1),13);
-    d->makeNeighbors(1,3);
-    printVector( d->getNeighbors(1),13);
-    printVector( d->getNeighbors(3),3);
+    d->eraseNeighbor(2,1);
+    printVector( d->getNeighbors(1),1);
+    printVector( d->getNeighbors(2),2);
+
 
 
 
