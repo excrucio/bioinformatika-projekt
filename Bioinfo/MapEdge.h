@@ -13,7 +13,8 @@ public:
     int ahang;
     int bhang;
     int oLenght; //lenght of overlap
-    char orientation; //type of edge
+    int orientationA; //orientation of readA
+    int orientationB; //orientation of readB
 
 
 };
