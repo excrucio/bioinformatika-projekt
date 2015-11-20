@@ -32,6 +32,7 @@ public:
     vector<int> getNeighbors(int id);
     void makeNeighbors(int idA, int idB);
     void eraseNeighbor(int idA, int idB);
+    void addContained(int containedFragment, int containerFragment);
 
 
     unordered_map <string,MapEdge*> graphEdges;

@@ -139,6 +139,27 @@ void DataBase::eraseNeighbor(int idA, int idB)
 
 }
 
+void DataBase::addContained(int containedFragment, int containerFragment)
+{
+    unordered_map<int,vector<int>>::const_iterator got = containedFragments.find(containedFragment);
+    if(got!=containedFragments.end())
+     {
+        vector<int> n = containedFragments[containedFragment];
+        for(unsigned int i = 0; i<n.size(); i++)
+            if (n[i]== containerFragment) return;
+        containedFragments[containedFragment].push_back(containerFragment);
+
+     }
+    else
+     {
+        vector<int> newVectorA;
+        newVectorA.push_back(containerFragment);
+        containedFragments[containedFragment]=newVectorA;
+
+     }
+
+}
+
 
 
 
