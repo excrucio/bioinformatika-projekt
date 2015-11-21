@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
     TransitiveEdgeRemover *ter = new TransitiveEdgeRemover;
     ter->removeTransitiveEdges();
 
-    /*cout<<"nakon sortiranja"<<std::endl;
+    cout<<"nakon redukcije"<<std::endl;
     for (int i = 1; i<14; i++)
-        f->printVector(b->getNeighbors(i),i);*/
+        f->printVector(b->getNeighbors(i),i);
 
 
     delete r;

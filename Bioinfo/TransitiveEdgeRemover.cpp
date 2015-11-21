@@ -33,8 +33,6 @@ void TransitiveEdgeRemover::initiateStructures()
         vertexReduceInfo info;
         info.mark = VACANT;
         vertexInfo[gE.first] = info;
-        cout<<gE.first<<std::endl;
-
     }
 
 }
@@ -89,7 +87,19 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
 
     }
 
-    printReduce();
+    removeTransitives();
+
+}
+
+void TransitiveEdgeRemover::removeTransitives()
+{
+    DataBase *db = DataBase::getInstance();
+
+    for(auto& gE : vertexInfo)
+    {
+        for (int i = 0; i< gE.second.reduce.size();i++)
+            db->eraseNeighbor(gE.first,gE.second.reduce[i]);
+    }
 
 }
 

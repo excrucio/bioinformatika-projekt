@@ -31,6 +31,7 @@ private:
     void setInplay(std::vector<int>);
     void setReduce(std::vector<int>neighbors, int vert);
     void printReduce();
+    void removeTransitives();
 
 };
 
