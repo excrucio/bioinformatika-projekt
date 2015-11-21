@@ -74,9 +74,10 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
                 for (unsigned int j = 0; j<db->neighbors[gE.second[i]].size();j++)
                 {
                     if(vertexInfo[db->neighbors[gE.second[i]][j]].mark==INPLAY)
-                        if((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
+                        if(((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
                             db->getEdge(gE.first,gE.second[i])->edgeLenght)<=
-                            db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->edgeLenght + FUZZ)
+                            (db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->edgeLenght + FUZZ))
+                             && arrowheadOrientationCheccker(gE.first,gE.second[i],db->neighbors[gE.second[i]][j]))
                             vertexInfo[db->neighbors[gE.second[i]][j]].mark = ELIMINATED;
 
                 }
@@ -89,6 +90,16 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
 
     removeTransitives();
 
+}
+
+
+bool TransitiveEdgeRemover::arrowheadOrientationCheccker(int a, int b, int c)
+{
+    DataBase *db = DataBase::getInstance();
+    if((db->getEdge(a,b)->orientationA == db->getEdge(a,c)->orientationA) &&
+        (db->getEdge(b,c)->orientationB == db->getEdge(a,c)->orientationB) )
+            return true;
+    return false;
 }
 
 void TransitiveEdgeRemover::removeTransitives()

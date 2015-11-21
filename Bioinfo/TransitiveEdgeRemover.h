@@ -32,6 +32,7 @@ private:
     void setReduce(std::vector<int>neighbors, int vert);
     void printReduce();
     void removeTransitives();
+    bool arrowheadOrientationCheccker(int a, int b, int c);
 
 };
 
