@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 typedef struct
 {
-    int idV;
     int mark;
     std::vector<int> reduce;
 
@@ -25,7 +25,12 @@ public:
 
     int FUZZ = 10;
     static int presentVertex;
-    std::vector<vertexReduceInfo> vertexInfo;
+    std::unordered_map<int,vertexReduceInfo> vertexInfo;
+
+private:
+    void setInplay(std::vector<int>);
+    void setReduce(std::vector<int>neighbors, int vert);
+    void printReduce();
 
 };
 

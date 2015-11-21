@@ -20,19 +20,21 @@ int main(int argc, char *argv[])
 
     r->testGraphReader();
     DataBase *b = DataBase::getInstance();
-    for (int i = 1; i<14; i++)
-        f->printVector(b->getNeighbors(i),i);
+    /*for (int i = 1; i<14; i++)
+        f->printVector(b->getNeighbors(i),i);*/
 
     TransitiveEdgeRemover *ter = new TransitiveEdgeRemover;
     ter->removeTransitiveEdges();
 
-    cout<<"nakon sortiranja"<<std::endl;
+    /*cout<<"nakon sortiranja"<<std::endl;
     for (int i = 1; i<14; i++)
-        f->printVector(b->getNeighbors(i),i);
+        f->printVector(b->getNeighbors(i),i);*/
 
 
     delete r;
     delete f;
+    delete ter;
+    ter = NULL;
     f=NULL;
     r=NULL;
     return a.exec();
