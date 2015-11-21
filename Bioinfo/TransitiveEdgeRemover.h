@@ -7,6 +7,8 @@ class TransitiveEdgeRemover
 public:
     TransitiveEdgeRemover();
     ~TransitiveEdgeRemover();
+
+    void removeTransitiveEdges();
 };
 
 #endif // TRANSITIVEEDGEREMOVER_H

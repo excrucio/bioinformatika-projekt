@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     for (int i = 1; i<14; i++)
         f->printVector(b->getNeighbors(i),i);
 
-
     delete r;
     delete f;
     f=NULL;
