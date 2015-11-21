@@ -67,7 +67,7 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
     {
         if(gE.second.size()==0)continue;
         setInplay(gE.second);
-        int longest = db->getEdge(gE.first,gE.second.back())->edgeLenght + FUZZ;
+        //int longest = db->getEdge(gE.first,gE.second.back())->edgeLenght + FUZZ;
 
         for (unsigned int i = 0; i<gE.second.size();i++)
         {
@@ -75,10 +75,10 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
             {
                 for (unsigned int j = 0; j<db->neighbors[gE.second[i]].size();j++)
                 {
-
-                    if((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
-                        db->getEdge(gE.first,gE.second[i])->edgeLenght)<=longest)
-                        if(vertexInfo[db->neighbors[gE.second[i]][j]].mark==INPLAY)
+                    if(vertexInfo[db->neighbors[gE.second[i]][j]].mark==INPLAY)
+                        if((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
+                            db->getEdge(gE.first,gE.second[i])->edgeLenght)<=
+                            db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->edgeLenght + FUZZ)
                             vertexInfo[db->neighbors[gE.second[i]][j]].mark = ELIMINATED;
 
                 }
