@@ -20,21 +20,7 @@ DataBase* DataBase::getInstance()
      }
 }
 
- MapEdge* DataBase::getEdge(int idA, int idB)
-{
-    string key1 = to_string(idA)+ ","+to_string(idB);
-    string key2 = to_string(idB)+ ","+to_string(idA);
 
-    unordered_map<string,MapEdge*>::const_iterator got = graphEdges.find (key1);
-    if(got!=graphEdges.end()) return graphEdges[key1];
-
-    got = graphEdges.find(key2);
-    if(got!=graphEdges.end()) return graphEdges[key2];
-
-    return NULL;
-
-
-}
 
 void DataBase::putEdge(MapEdge* edge)
 {
