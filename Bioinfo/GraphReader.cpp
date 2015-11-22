@@ -40,53 +40,7 @@ void GraphReader::testGraphReader()
     data->putEdge(edge12); //putting edge info to database
     data->makeNeighbors(1,2);//creating adge between vertex 1 & vertex 2
 
-    MapEdge* edge13 = new MapEdge;
-    edge13->readA = 1;
-    edge13->readB = 3;
-    edge13->orientationA = 1;
-    edge13->orientationB = 1;
-    edge13->ahang = 900;
-    edge13->bhang = 900;
-    edge13->oLenght=100;
-    edge13->edgeLenght = 1900;
-    data->putEdge(edge13);
-    data->makeNeighbors(1,3);
 
-    MapEdge* edge14 = new MapEdge;
-    edge14->readA = 1;
-    edge14->readB = 4;
-    edge14->orientationA = 1;
-    edge14->orientationB = 0;
-    edge14->ahang = 900;
-    edge14->bhang = 900;
-    edge14->oLenght=100;
-    edge14->edgeLenght = 2000;
-    data->putEdge(edge14);
-    data->makeNeighbors(1,4);
-
-    MapEdge* edge23 = new MapEdge;
-    edge23->readA = 2;
-    edge23->readB = 3;
-    edge23->orientationA = 0;
-    edge23->orientationB = 1;
-    edge23->ahang = 900;
-    edge23->bhang = 900;
-    edge23->oLenght=100;
-    edge23->edgeLenght = 100;
-    data->putEdge(edge23);
-    data->makeNeighbors(2,3);
-
-    MapEdge* edge24 = new MapEdge;
-    edge24->readA = 2;
-    edge24->readB = 4;
-    edge24->orientationA = 0;
-    edge24->orientationB = 0;
-    edge24->ahang = 900;
-    edge24->bhang = 900;
-    edge24->oLenght=100;
-    edge24->edgeLenght = 200;
-    data->putEdge(edge24);
-    data->makeNeighbors(2,4);
 
     MapEdge* edge34 = new MapEdge;
     edge34->readA = 3;
