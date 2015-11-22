@@ -11,7 +11,8 @@ void GraphReader::read(string overlapsPath, string readsPath)
 {
     //this is where the graph data is loaded, all structures in data base are initialised
     //and all the fragments contained in other fragments + all the appropriate edges are removed
-
+    // Josip? Tu treba dodati ulaz i odmah tu isto ukloniti viškove bridova?
+    // jesam dobro shvatio?
 
 }
 
@@ -21,6 +22,7 @@ void GraphReader::testGraphReader()
     //this is a dummy function that creates our initial test graph
     //I'll add code here, this funtion will be removed
     //in the final incarnation of our program :)
+    //samo za test
 
 
     DataBase* data = DataBase::getInstance(); //access to database

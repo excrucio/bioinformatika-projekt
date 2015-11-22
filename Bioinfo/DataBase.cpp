@@ -89,7 +89,6 @@ void DataBase::makeNeighbors(int idA, int idB)
 
 }
 
-
 void DataBase::eraseNeighbor(int idA, int idB)
 {
     unordered_map<int,vector<int>>::const_iterator got = neighbors.find (idA);
@@ -116,8 +115,8 @@ void DataBase::eraseNeighbor(int idA, int idB)
     }
     else return;
 
-    //nisam napravila provjeru za b. ali se ovaj dio koda
-    //ne bi nikad smio odvrtiti ako ne postoji
+    //nema provjere za b. ali se ovo
+    //ne bi nikad trebalo ivršiti ako ne postoji
     unsigned int position = 0;
     bool found = false;
     vector<int> n = neighbors[idB];
@@ -159,9 +158,3 @@ void DataBase::addContained(int containedFragment, int containerFragment)
      }
 
 }
-
-
-
-
-
-
