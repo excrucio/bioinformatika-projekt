@@ -11,8 +11,7 @@ void GraphReader::read(string overlapsPath, string readsPath)
 {
     //this is where the graph data is loaded, all structures in data base are initialised
     //and all the fragments contained in other fragments + all the appropriate edges are removed
-    // Josip? Tu treba dodati ulaz i odmah tu isto ukloniti viškove bridova?
-    // jesam dobro shvatio?
+    // Josip? Tu treba dodati ulaz i odmah tu isto uklonoti
 
 }
 
@@ -148,7 +147,17 @@ void GraphReader::testGraphReader()
     data->putEdge(edge45);
     //data->makeNeighbors(4,5);
 
-
+    MapEdge* edge46 = new MapEdge;
+    edge46->readA = 4;
+    edge46->readB = 6;
+    edge46->orientationA = 1;
+    edge46->orientationB = 1;
+    edge46->ahang = 900;
+    edge46->bhang = 900;
+    edge46->oLenght=100;
+    edge46->edgeLenght = 100;
+    data->putEdge(edge46);
+    data->makeNeighbors(4,6);
 
     MapEdge* edge47 = new MapEdge;
     edge47->readA = 4;
