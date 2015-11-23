@@ -24,3 +24,4 @@ HEADERS += \
     DataBase.h \
     GeneralFunctions.h
 
+QMAKE_CXXFLAGS += -std=c++11
