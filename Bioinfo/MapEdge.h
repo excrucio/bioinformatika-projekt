@@ -11,8 +11,8 @@ public:
     int readA; //id of first fragment
     int readB; //id of second fragment
 
-    // int ahang;
-    // int bhang;
+    int ahang;
+    int bhang;
 
     int oLenght; //lenght of overlap
     int edgeLenght; //lenght of edge
