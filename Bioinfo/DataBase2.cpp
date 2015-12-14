@@ -102,7 +102,6 @@ void DataBase2::makeNeighbors(int idA, int idB)
 
 }
 
-//*
 
 void DataBase2::eraseNeighbor(int idA, int idB)
 {
