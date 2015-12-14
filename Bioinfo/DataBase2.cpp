@@ -34,3 +34,17 @@ DataBase2* DataBase2::getInstance()
 
 
 }
+
+bool DataBase2::hasEdge(int idA, int idB)
+{
+    string key1 = to_string(idA)+ ","+to_string(idB);
+    string key2 = to_string(idB)+ ","+to_string(idA);
+
+    unordered_map<string,MapEdge*>::const_iterator got = graphEdges.find (key1);
+    if(got!=graphEdges.end()) return true;
+
+    got = graphEdges.find(key2);
+    if(got!=graphEdges.end()) return true;
+
+    return false;
+}
