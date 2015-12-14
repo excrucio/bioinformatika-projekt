@@ -152,3 +152,32 @@ void DataBase2::eraseNeighbor(int idA, int idB)
     else {cout<<"nisu susjedi 3"<<std::endl;return;}
 
 }
+
+void DataBase2::addContained(int containedFragment, int containerFragment)
+{
+    unordered_map<int,vector<int>>::const_iterator got = containedFragments.find(containedFragment);
+    if(got!=containedFragments.end())
+     {
+        vector<int> n = containedFragments[containedFragment];
+        for(unsigned int i = 0; i<n.size(); i++)
+            if (n[i]== containerFragment) return;
+        containedFragments[containedFragment].push_back(containerFragment);
+
+     }
+    else
+     {
+        vector<int> newVectorA;
+        newVectorA.push_back(containerFragment);
+        containedFragments[containedFragment]=newVectorA;
+
+     }
+
+}
+
+bool DataBase2::isContained(int fragmentId)
+{
+    unordered_map<int,vector<int>>::const_iterator got = containedFragments.find (fragmentId);
+    if(got!=containedFragments.end()) return true;
+    else return false;
+}
+
