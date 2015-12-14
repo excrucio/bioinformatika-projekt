@@ -14,7 +14,9 @@ SOURCES += main.cpp \
     LayoutWriter.cpp \
     TransitiveEdgeRemover.cpp \
     DataBase.cpp \
-    GeneralFunctions.cpp
+    GeneralFunctions.cpp \
+    DataBase2.cpp \
+    GraphReader2.cpp
 
 HEADERS += \
     MapEdge.h \
@@ -22,6 +24,7 @@ HEADERS += \
     LayoutWriter.h \
     TransitiveEdgeRemover.h \
     DataBase.h \
-    GeneralFunctions.h
+    GeneralFunctions.h \
+    DataBase2.h \
+    GraphReader2.h
 
-QMAKE_CXXFLAGS += -std=c++11
