@@ -48,3 +48,21 @@ bool DataBase2::hasEdge(int idA, int idB)
 
     return false;
 }
+
+void DataBase2::putEdge(MapEdge* edge)
+{
+    string key = to_string(edge->readA)+","+to_string(edge->readB);
+    graphEdges[key] = edge;
+
+}
+
+vector<int> DataBase2::getNeighbors(int id)
+{
+    vector<int> returnEmpty;
+    unordered_map<int,vector<int>>::const_iterator got = neighbors.find (id);
+    if(got!=neighbors.end()) return neighbors[id];
+    return returnEmpty;
+}
+
+
+
