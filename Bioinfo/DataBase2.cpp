@@ -65,4 +65,41 @@ vector<int> DataBase2::getNeighbors(int id)
 }
 
 
+void DataBase2::makeNeighbors(int idA, int idB)
+{
+    unordered_map<int,vector<int>>::const_iterator got = neighbors.find (idA);
+    if(got!=neighbors.end())
+     {
+        vector<int> n = neighbors[idA];
+        for(unsigned int i = 0; i<n.size(); i++)
+            if (n[i]== idB) return;
+        neighbors[idA].push_back(idB);
+
+     }
+    else
+     {
+        vector<int> newVectorA;
+        newVectorA.push_back(idB);
+        neighbors[idA]=newVectorA;
+
+     }
+
+
+     got = neighbors.find (idB);
+     if(got!=neighbors.end())
+      {
+        neighbors[idB].push_back(idA);
+      }
+     else
+      {
+         vector<int> newVectorB;
+         newVectorB.push_back(idA);
+         neighbors[idB]=newVectorB;
+
+      }
+
+
+
+}
+
 
