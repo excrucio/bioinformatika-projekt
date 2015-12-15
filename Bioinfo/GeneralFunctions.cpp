@@ -131,3 +131,108 @@ void GeneralFunctions::differenceControlGraphVertex()
     printVector(diff);
 }
 
+void GeneralFunctions::differencelGraphControlVertex()
+{
+    DataBase *b1 = DataBase::getInstance();
+    DataBase2 *b2 = DataBase2::getInstance();
+    vector<int> diff;
+
+    for(auto& gE : b1->neighbors)
+        if(b2->getNeighbors(gE.first).size()==0) diff.push_back(gE.first);
+
+    cout<<"U grafu ima "<<diff.size()<<" vrhova kojih nema u controlu. To su:"<<std::endl;
+    printVector(diff);
+}
+
+void GeneralFunctions::listJointVertexes()
+{
+    DataBase *b1 = DataBase::getInstance();
+    DataBase2 *b2 = DataBase2::getInstance();
+    vector<int> diff;
+
+    for(auto& gE : b1->neighbors)
+        if(b2->getNeighbors(gE.first).size()>0) diff.push_back(gE.first);
+
+    cout<<"Zajednickih vrhova ima "<<diff.size()<<". To su:"<<std::endl;
+    printVector(diff);
+}
+
+bool GeneralFunctions::sameList(std::vector<int> list1, std::vector<int> list2)
+{
+    sort(list1.begin(),list1.end());
+    sort(list2.begin(),list2.end());
+
+    if(list1.size()!=list2.size()) return false;
+    for(unsigned int i = 0; i < list1.size(); i++)
+        if(list1[i] != list2[i]) return false;
+    return true;
+
+
+
+}
+
+void GeneralFunctions::howManySame()
+{
+    DataBase *b1 = DataBase::getInstance();
+    DataBase2 *b2 = DataBase2::getInstance();
+    vector<int> diff;
+
+    for(auto& gE : b1->neighbors)
+    {
+        if (sameList(b2->getNeighbors(gE.first),gE.second))
+            diff.push_back(gE.first);
+    }
+
+    if(diff.size()>0)
+    {
+        cout<<"Vrhova sa istim susjedima ima "<<diff.size()<<". To su:"<<std::endl;
+        printVector(diff);
+    }
+    else cout<<"Nema vrhova sa istim susjedima"<<std::endl;
+}
+
+void GeneralFunctions::howManyDifferent()
+{
+    DataBase *b1 = DataBase::getInstance();
+    DataBase2 *b2 = DataBase2::getInstance();
+    vector<int> diff;
+
+    for(auto& gE : b1->neighbors)
+    {
+        if (!sameList(b2->getNeighbors(gE.first),gE.second))
+            diff.push_back(gE.first);
+    }
+
+    if(diff.size()>0)
+    {
+        cout<<"Vrhova sa razlicitim susjedima ima "<<diff.size()<<". To su:"<<std::endl;
+        printVector(diff);
+    }
+    else cout<<"Nema vrhova sa razlicitim susjedima"<<std::endl;
+}
+
+void GeneralFunctions::listAllNeigbors(int id)
+{
+    DataBase *b1 = DataBase::getInstance();
+    DataBase2 *b2 = DataBase2::getInstance();
+
+    if(b1->getNeighbors(id).size()>0)
+    {
+        cout<<"U grafu su susjedi od "<<id<<": "<<std::endl;
+        printVector(sortedVector(b1->getNeighbors(id)));
+    }
+    else cout<<"U grafu nema vrha "<<id<<". "<<std::endl;
+
+    if(b2->getNeighbors(id).size()>0)
+    {
+        cout<<"U controlu su susjedi od "<<id<<": "<<std::endl;
+        printVector(sortedVector(b2->getNeighbors(id)));
+    }
+    else cout<<"U controlu nema vrha "<<id<<". "<<std::endl;
+}
+
+vector <int> GeneralFunctions:: sortedVector(vector<int> v)
+{
+    sort(v.begin(),v.end());
+    return v;
+}
