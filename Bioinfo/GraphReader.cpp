@@ -1,27 +1,229 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
+
 #include "GraphReader.h"
 #include "DataBase.h"
 #include "MapEdge.h"
+#include "TransitiveEdgeRemover.h"
+
 
 
 GraphReader::GraphReader(){}
 GraphReader::~GraphReader(){}
 
-void GraphReader::read(string overlapsPath, string readsPath)
+bool GraphReader::calculateEdge
+( int orientationA,
+  int AStart,
+  int AEnd,
+  int ALenghth,
+  int orientationB,
+  int BStart,
+  int BEnd,
+  int BLenghth,
+  int idA,
+  int idB,
+  MapEdge *edge
+)
 {
-    //this is where the graph data is loaded, all structures in data base are initialised
-    //and all the fragments contained in other fragments + all the appropriate edges are removed
-    // Josip? Tu treba dodati ulaz i odmah tu isto uklonoti
+    DataBase *data = DataBase::getInstance();
+    int AMinus = 0;
+    int BMinus = 0;
+    int APlus = 0;
+    int BPlus = 0;
+
+    if( (AStart<AEnd) && (BStart<BEnd) && orientationA==0 && orientationB == 0)
+    {
+        AMinus = AStart;
+        BMinus = BStart;
+        APlus = ALenghth-AEnd;
+        BPlus = BLenghth-BEnd;
+        edge->orientationA = 0;
+        edge->orientationB = 1;
+    }
+
+    if( (AStart<AEnd) && (BStart<BEnd) && orientationA==0 && orientationB == 1)
+    {
+        AMinus = AStart;
+        BMinus = BLenghth-BEnd;
+        APlus = ALenghth-AEnd;
+        BPlus = BStart;
+        edge->orientationA = 0;
+        edge->orientationB = 1;
+    }
+
+    if( (AStart>AEnd) && (BStart>BEnd) )
+    {
+        AMinus = ALenghth-AStart;
+        BMinus = BLenghth-BStart;
+        APlus = AEnd;
+        BPlus = BEnd;
+        edge->orientationA = 1;
+        edge->orientationB = 0;
+
+
+    }
+
+    if( (AStart<AEnd) && (BStart>BEnd) )
+    {
+
+        AMinus = AStart;
+        BMinus = BLenghth-BStart;
+        APlus = ALenghth-AEnd;
+        BPlus = BEnd;
+        edge->orientationA = 0;
+        edge->orientationB = 0;
+    }
+
+    if( (AStart>AEnd) && (BStart<BEnd) )
+    {
+
+        AMinus = ALenghth-AStart;
+        BMinus = BStart;
+        APlus = AEnd;
+        BPlus = BLenghth-BEnd;
+        edge->orientationA = 1;
+        edge->orientationB = 1;
+    }
+
+    bool swichA = true;
+    bool swichB = true;
+
+   if(AMinus < BMinus && APlus<BPlus)
+    {
+        data->addContained(idA,idB);
+        swichA = false;
+       // return false;
+    }
+
+    if(AMinus > BMinus && APlus>BPlus)
+    {
+        data->addContained(idB,idA);
+        swichB = false;
+        //return false;
+    }
+
+    edge->edgeLenght = max(AMinus,BMinus) + max(APlus, BPlus);
+    edge->oLenght = (abs(AEnd - AStart) + abs(BStart-BEnd))/2;
+
+    //if(ALenghth<(edge->oLenght*TransitiveEdgeRemover::err + 2*TransitiveEdgeRemover::FUZZ) && swichA) data->addContained(idA,idB);
+    //if(BLenghth<(edge->oLenght*TransitiveEdgeRemover::err + 2*TransitiveEdgeRemover::FUZZ) && swichB) data->addContained(idB,idA);
+    return true;
+}
+
+
+
+void GraphReader::checkOrientation(int orientationA, int orientationB, MapEdge *edge)
+{
+
+    //if(orientationA == 0)// && orientationB==1)
+      //  cout<<"orientacije su  "<<orientationA<<" "<<orientationB <<"\n"<<std::endl;
 
 }
 
+
+void GraphReader::read(string overlapsPath)
+{
+    //this is where the graph data is loaded, all structures in data base are initialised
+    //and all the fragments contained in other fragments + all the appropriate edges are removed
+
+    using namespace boost::algorithm;
+
+   ifstream myfile(overlapsPath);
+   string line;
+
+   if (myfile.is_open())
+     {
+
+       int j = 0;
+       int i = 0;
+       DataBase *data = DataBase::getInstance();
+
+       while ( getline (myfile,line) )
+       {
+           i++;
+           std::vector<std::string> tokens;
+           split(tokens, line, is_any_of(" "));
+
+           MapEdge* edge = new MapEdge;
+           edge->readA = atoi(tokens[0].c_str());
+           edge->readB = atoi(tokens[1].c_str());
+
+           calculateEdge
+                   (atoi(tokens[4].c_str()),
+                   atoi(tokens[5].c_str()),
+                   atoi(tokens[6].c_str()),
+                   atoi(tokens[7].c_str()),
+                   atoi(tokens[8].c_str()),
+                   atoi(tokens[9].c_str()),
+                   atoi(tokens[10].c_str()),
+                   atoi(tokens[11].c_str()),
+                   atoi(tokens[0].c_str()),
+                   atoi(tokens[1].c_str()),
+                   edge);
+           checkOrientation(atoi(tokens[4].c_str()),atoi(tokens[8].c_str()),edge);
+
+           data->putEdge(edge);
+           data->makeNeighbors(edge->readA,edge->readB);
+
+
+
+
+
+       }
+       myfile.close();
+
+     }
+
+     else cout << "Unable to open file";
+
+
+}
+
+
+void GraphReader::removeContainedEdges()
+{
+    DataBase *b = DataBase::getInstance();
+
+    for(auto& gE : b->containedFragments)
+    {
+        while(b->neighbors[gE.first].size()>0)
+        {
+            b->eraseNeighbor(gE.first,b->neighbors[gE.first][0]);
+        }
+
+        b->neighbors.erase(gE.first);
+
+    }
+
+    removeZeroes();
+
+}
+
+
+void GraphReader::removeZeroes()
+{
+   DataBase *b = DataBase::getInstance();
+   vector <int> erase;
+   for(auto& gE : b->neighbors)
+   {
+       if(gE.second.size()==0){erase.push_back(gE.first);}
+   }
+
+
+   for(unsigned int i = 0; i < erase.size(); i++)
+       b->neighbors.erase(erase[i]);
+
+}
 
 void GraphReader::testGraphReader()
 {
     //this is a dummy function that creates our initial test graph
     //I'll add code here, this funtion will be removed
     //in the final incarnation of our program :)
-    //samo za test
 
 
     DataBase* data = DataBase::getInstance(); //access to database
