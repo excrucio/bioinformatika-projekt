@@ -12,6 +12,8 @@ TransitiveEdgeRemover::TransitiveEdgeRemover(){}
 TransitiveEdgeRemover::~TransitiveEdgeRemover(){}
 
 int TransitiveEdgeRemover::presentVertex = 0;
+int TransitiveEdgeRemover::FUZZ = 30;
+float TransitiveEdgeRemover::err = 0.3;
 
 void TransitiveEdgeRemover::sortNeighbors()
 {
@@ -74,11 +76,13 @@ void TransitiveEdgeRemover::removeTransitiveEdges()
                 for (unsigned int j = 0; j<db->neighbors[gE.second[i]].size();j++)
                 {
                     if(vertexInfo[db->neighbors[gE.second[i]][j]].mark==INPLAY)
-                        if(((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
+                        if(db->hasEdge(gE.first,db->neighbors[gE.second[i]][j]))
+                        {if(((db->getEdge(gE.second[i],db->neighbors[gE.second[i]][j])->edgeLenght +
                             db->getEdge(gE.first,gE.second[i])->edgeLenght)<=
-                            (db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->edgeLenght + FUZZ))
+                            (db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->edgeLenght + db->getEdge(gE.first,db->neighbors[gE.second[i]][j])->oLenght*err+ 2*FUZZ))
                              && arrowheadOrientationCheccker(gE.first,gE.second[i],db->neighbors[gE.second[i]][j]))
-                            vertexInfo[db->neighbors[gE.second[i]][j]].mark = ELIMINATED;
+                            {vertexInfo[db->neighbors[gE.second[i]][j]].mark = ELIMINATED;}}
+
 
                 }
             }
@@ -109,7 +113,8 @@ void TransitiveEdgeRemover::removeTransitives()
     for(auto& gE : vertexInfo)
     {
         for (int i = 0; i< gE.second.reduce.size();i++)
-            db->eraseNeighbor(gE.first,gE.second.reduce[i]);
+        {if(gE.second.mark!=0)cout<<gE.second.mark<<std::endl;
+            db->eraseNeighbor(gE.first,gE.second.reduce[i]);}
     }
 
 }

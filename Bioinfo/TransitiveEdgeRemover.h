@@ -23,7 +23,8 @@ public:
     void sortNeighbors();
     void initiateStructures();
 
-    int FUZZ = 10;
+    static int FUZZ; //= 30;
+    static float err; //= 0.3;
     static int presentVertex;
     std::unordered_map<int,vertexReduceInfo> vertexInfo;
 
