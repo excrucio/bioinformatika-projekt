@@ -7,4 +7,3 @@ MapEdge::MapEdge(){}
 
 MapEdge::~MapEdge(){}
 
-//što ti predstavlja točno ovo?
