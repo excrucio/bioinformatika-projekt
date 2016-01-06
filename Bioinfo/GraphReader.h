@@ -13,9 +13,9 @@ public:
     GraphReader();
     ~GraphReader();
 
-    void read(string);
+    void read(string, string);
     void testGraphReader();
-    void removeContainedEdges();
+    void removeContainedEdges(string);
     void checkOrientation(int orientationA, int orientationB, MapEdge* edge);
     void removeZeroes();
     bool calculateEdge

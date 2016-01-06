@@ -34,6 +34,8 @@ bool GraphReader::calculateEdge
     int BMinus = 0;
     int APlus = 0;
     int BPlus = 0;
+    edge->aLenghth = ALenghth;
+    edge->bLenght = BLenghth;
 
     if( (AStart<AEnd) && (BStart<BEnd) && orientationA==0 && orientationB == 0)
     {
@@ -41,8 +43,21 @@ bool GraphReader::calculateEdge
         BMinus = BStart;
         APlus = ALenghth-AEnd;
         BPlus = BLenghth-BEnd;
+
         edge->orientationA = 0;
-        edge->orientationB = 1;
+        edge->orientationB = 0;
+        edge->APlus = APlus;
+        edge->AMinus = AMinus;
+        edge ->BPlus = BPlus;
+        edge->bMinus = BMinus;
+        edge->oB = 0;
+        edge->ahang = AStart;
+        edge->bhang = BEnd;
+        edge->oLenght = AEnd-AStart;
+        edge->aStart = AStart;
+        edge->aEnd = AEnd;
+        edge->bStart = BStart;
+        edge->bEnd = BEnd;
     }
 
     if( (AStart<AEnd) && (BStart<BEnd) && orientationA==0 && orientationB == 1)
@@ -51,8 +66,21 @@ bool GraphReader::calculateEdge
         BMinus = BLenghth-BEnd;
         APlus = ALenghth-AEnd;
         BPlus = BStart;
+
         edge->orientationA = 0;
         edge->orientationB = 1;
+        edge->APlus = APlus;
+        edge->AMinus = AMinus;
+        edge ->BPlus = BPlus;
+        edge->bMinus = BMinus;
+        edge->oB = 1;
+        edge->ahang = AStart;
+        edge->bhang = BStart;
+        edge->oLenght = AEnd-AStart;
+        edge->aStart = AStart;
+        edge->aEnd = AEnd;
+        edge->bStart = BStart;
+        edge->bEnd = BEnd;
     }
 
     if( (AStart>AEnd) && (BStart>BEnd) )
@@ -61,7 +89,7 @@ bool GraphReader::calculateEdge
         BMinus = BLenghth-BStart;
         APlus = AEnd;
         BPlus = BEnd;
-        edge->orientationA = 1;
+        edge->orientationA = 0;
         edge->orientationB = 0;
 
 
@@ -106,7 +134,10 @@ bool GraphReader::calculateEdge
         //return false;
     }
 
-    edge->edgeLenght = max(AMinus,BMinus) + max(APlus, BPlus);
+    if(AMinus > BMinus)edge->first = 0;
+    else edge->first = 1;
+
+    edge->edgeLenght = (max(AMinus,BMinus)+ max(APlus, BPlus));
     edge->oLenght = (abs(AEnd - AStart) + abs(BStart-BEnd))/2;
 
     //if(ALenghth<(edge->oLenght*TransitiveEdgeRemover::err + 2*TransitiveEdgeRemover::FUZZ) && swichA) data->addContained(idA,idB);
@@ -125,7 +156,7 @@ void GraphReader::checkOrientation(int orientationA, int orientationB, MapEdge *
 }
 
 
-void GraphReader::read(string overlapsPath)
+void GraphReader::read(string overlapsPath, string readsPath)
 {
     //this is where the graph data is loaded, all structures in data base are initialised
     //and all the fragments contained in other fragments + all the appropriate edges are removed
@@ -145,10 +176,12 @@ void GraphReader::read(string overlapsPath)
        while ( getline (myfile,line) )
        {
            i++;
+           MapEdge* edge = new MapEdge;
+           edge->edgeInfo = line;
            std::vector<std::string> tokens;
            split(tokens, line, is_any_of(" "));
 
-           MapEdge* edge = new MapEdge;
+
            edge->readA = atoi(tokens[0].c_str());
            edge->readB = atoi(tokens[1].c_str());
 
@@ -181,10 +214,13 @@ void GraphReader::read(string overlapsPath)
      else cout << "Unable to open file";
 
 
+
+
+
 }
 
 
-void GraphReader::removeContainedEdges()
+void GraphReader::removeContainedEdges(string readsPath)
 {
     DataBase *b = DataBase::getInstance();
 
@@ -200,6 +236,50 @@ void GraphReader::removeContainedEdges()
     }
 
     removeZeroes();
+
+    cout<<"reading strings"<<std::endl;
+
+    ifstream myfile2(readsPath);
+    string line;
+
+    if (myfile2.is_open())
+      {
+
+        int j = 0;
+        int i = 0;
+        DataBase *data = DataBase::getInstance();
+        bool upisi = false;
+
+        while ( getline (myfile2,line) )
+        {
+            if(line[0]=='@')
+            {
+                i++;
+                if(data->neighbors[i].size()>0)
+                {
+                    upisi = true;
+                    continue;
+                }
+            }
+            if(upisi)
+            {
+                upisi = false;
+                data->v_strings[i] = line;
+            }
+
+
+
+
+
+
+        }
+        myfile2.close();
+        //for(auto& gE :data->v_strings)
+          //   cout<<gE.first<<" ima ih "<<gE.second.size()<<std::endl;
+
+      }
+
+      else cout << "Unable to open file";
 
 }
 
@@ -228,6 +308,26 @@ void GraphReader::testGraphReader()
 
     DataBase* data = DataBase::getInstance(); //access to database
 
+    data->makeNeighbors(1,2);
+    data->makeNeighbors(3,2);
+    data->makeNeighbors(3,4);
+    data->makeNeighbors(5,4);
+    data->makeNeighbors(9,4);
+    data->makeNeighbors(5,6);
+    data->makeNeighbors(7,6);
+    data->makeNeighbors(7,8);
+    data->makeNeighbors(9,8);
+    data->makeNeighbors(9,10);
+    data->makeNeighbors(10,11);
+    data->makeNeighbors(11,12);
+    data->makeNeighbors(12,13);
+    data->makeNeighbors(4,14);
+    data->makeNeighbors(15,9);
+    data->makeNeighbors(15,4);
+
+
+
+    /*
     //mapping graph
     MapEdge* edge12 = new MapEdge; //making new edge info
     edge12->readA = 1;
@@ -603,7 +703,7 @@ void GraphReader::testGraphReader()
 
     data->addContained(5,4); //adding contained edges to database structure
     data->addContained(9,8);
-    data->addContained(9,10);
+    data->addContained(9,10);*/
 
 
 }
