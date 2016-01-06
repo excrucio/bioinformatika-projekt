@@ -49,7 +49,9 @@ public:
 
     unordered_map <string,MapEdge*> graphEdges;
     unordered_map<int,vector<int>> neighbors;
+    unordered_map<int,string> v_strings;
     unordered_map<int,vector<int>> containedFragments;
+
 
 
 private:

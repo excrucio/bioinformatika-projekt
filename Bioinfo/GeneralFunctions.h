@@ -23,7 +23,7 @@ public:
     int getNumberOfEdges2();
     int getNumberOfControlEdges2();
     int getMaxNeigbors();
-    void startGraph(std::string FileName);
+    void startGraph(std::string FileName, std::string FileNameReads);
     void inputControlGraph(std::string FileName);
     void differenceControlGraphVertex();
     void differencelGraphControlVertex();
@@ -34,6 +34,7 @@ public:
     std::vector<int> sortedVector(std::vector<int> v);
     bool sameList(std::vector<int> list1,std::vector<int> list2);
     void printVector(std::vector<int> v);
+    void printVector(std::vector<std::string> v, std::string s);
 
 };
 

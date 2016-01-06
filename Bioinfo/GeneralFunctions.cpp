@@ -5,6 +5,7 @@
 #include "GraphReader2.h"
 #include "TransitiveEdgeRemover.h"
 
+
 #include <algorithm>
 
 using namespace std;
@@ -21,6 +22,16 @@ void GeneralFunctions:: printVector(std::vector<int> v, int a)
         std::cout<<v[i]<<", ";
     std::cout<<std::endl;
     std::cout<<std::endl;
+}
+
+void GeneralFunctions::printVector(std::vector<string> v, string s)
+{
+    std::cout<< s <<" ";
+    for(unsigned int i = 0; i<v.size();i++)
+        std::cout<<v[i]<<", ";
+    std::cout<<std::endl;
+
+
 }
 
 int GeneralFunctions::getNumberOfEdges()
@@ -66,19 +77,19 @@ int GeneralFunctions::getMaxNeigbors()
 }
 
 
-void GeneralFunctions::startGraph(string fileName)
+void GeneralFunctions::startGraph(string fileName, string fileNameReads)
 {
     DataBase *b = DataBase::getInstance();
     GraphReader *r = new GraphReader;
 
     cout<<"reading input"<<std::endl;
-    r->read(fileName);
+    r->read(fileName, fileNameReads);
 
     cout<<"finished redaing, starting to remove contained edges:"<<std::endl;
     cout<<"contained fragments: "<<b->containedFragments.size()<<std::endl;
     cout<<"vrhova prije brisanja contained:  "<<b->neighbors.size()<<std::endl;
 
-    r->removeContainedEdges();
+    r->removeContainedEdges(fileNameReads);
     cout<<"vrhova poslje brisanja contained:  "<<b->neighbors.size()<<"\n"<<std::endl;
     cout<<"broj edgeva prije transitiva: "<<getNumberOfEdges2()<<std::endl;
     int j = b->neighbors.size();
@@ -91,6 +102,9 @@ void GeneralFunctions::startGraph(string fileName)
     cout<<"vrhova nakon brisanja transitiva: "<<b->neighbors.size()<<std::endl;
     cout<<"pobrisano je "<< j - b->neighbors.size()<<" vrhova."<<std::endl;
     cout<<"broj edgeva nakon transitive removera: "<<getNumberOfEdges2()<<std::endl;
+
+    cout<<"pocinjem chunkanje:"<<std::endl;
+
 
     delete r;
     delete ter;
@@ -236,3 +250,14 @@ vector <int> GeneralFunctions:: sortedVector(vector<int> v)
     sort(v.begin(),v.end());
     return v;
 }
+
+
+
+
+
+
+
+
+
+
+

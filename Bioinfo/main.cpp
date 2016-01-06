@@ -11,19 +11,51 @@
 #include "DataBase.h"
 #include "GeneralFunctions.h"
 #include "LayoutWriter.h"
+#include "GraphChunker.h"
+#include "DataBase2.h"
+
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    GeneralFunctions *f = new GeneralFunctions;
-    f->startGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.mhap");
+    /*GraphReader *r = new GraphReader;
+    r->testGraphReader();
+    GraphChunker *ch = new GraphChunker;
+    ch ->ChunkGraph();
+    LayoutWriter *lw = new LayoutWriter;
+    lw->writeGraph(ch->chunks);
 
-    cout<<"\n\nwhat do you want:\n 1. Read control graph\n 2. Quit."<<std::endl;
+    delete r;
+    delete ch;
+    delete lw;*/
+
+
+
+    GeneralFunctions *f = new GeneralFunctions;
+    //f->inputControlGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.after_unitigger.mhap");
+   f->startGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.mhap","/home/gongo/Desktop/bioinfoprojekt/reads.fq");
+    GraphChunker *ch = new GraphChunker;
+    ch ->ChunkGraph3();//(DataBase::getInstance()->neighbors);
+    cout<<"nakon chunkanja ima: "<<ch->chunks.size()<<" chunkova."<<std::endl;
+    LayoutWriter *lw = new LayoutWriter;
+    lw->writeGraph(ch->chunks);
+    lw->writeGraph("/home/gongo/Desktop/bioinfoprojekt/graph");
+
+    delete ch;
+    delete lw;
+   delete f;
+
+
+
+   /* cout<<"\n\nwhat do you want:\n 1. Read control graph\n 2. Quit."<<std::endl;
 
     std::string mystring;
     int choice = 0;
+
+
+
 
     while(true)
     {
@@ -36,7 +68,12 @@ int main(int argc, char *argv[])
     if (choice==2) exit(0);
 
     f->inputControlGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.after_unitigger.mhap");
-
+    //ch->ChunkGraph(DataBase2::getInstance()->neighbors);
+    //lw->writeGraph(ch->chunks);
+     delete ch;
+     delete lw;
+    delete f;
+/*
     while(true)
     {
         cout<<"\n\nwhat do you want:\n 1. What vertexes exist in control and not in graph"
@@ -80,77 +117,10 @@ int main(int argc, char *argv[])
         }
         if(choice == 10 ) break;
 
-    }
+    }*/
 
-    exit(0);;
-    /*GraphReader *r = new GraphReader;
-    cout<<"reading input"<<std::endl;
-    r->read("/home/gongo/Desktop/bioinfoprojekt/overlaps.mhap");
-    cout<<"finished redaing, starting to remove contained edges:"<<std::endl;
+    exit(0);
 
-    int j = 0;
-   for(auto& gE : b->neighbors)
-   {
-       j++;
-       //f->printVector(b->getNeighbors(gE.first),gE.first);
-
-   }
-   cout<<"vrhova prije brisanja  "<<j<<std::endl;
-
-
-   j = 0;
-  for(auto& gE : b->containedFragments)
-  {
-      j++;
-      //f->printVector(b->getNeighbors(gE.first),gE.first);
-
-  }
-  cout<<"contained fragments prije brisanja"<<j<<std::endl;
-   r->removeContainedEdges();
-   cout<<"kapacitet edgeva prije transitiva"<<f->getNumberOfEdges2()<<std::endl;
-
-    cout<<std::endl;
-    //r->testGraphReader();
-
-    /*for (int i = 1; i<14; i++)
-        f->printVector(b->getNeighbors(i),i);*/
-
-    /*TransitiveEdgeRemover *ter = new TransitiveEdgeRemover;
-    cout<<"contained edges removed. Removing transitive edges."<<std::endl;
-    ter->removeTransitiveEdges();
-    r->removeZeroes();
-    cout<<"transitive edges removed"<<std::endl;
-    cout<<"nakon redukcije"<<std::endl;
-    /*for (int i = 1; i<14; i++)
-        f->printVector(b->getNeighbors(i),i);*/
-
-    /* j = 0;
-    for(auto& gE : b->containedFragments)
-    {
-        j++;
-        //f->printVector(b->getNeighbors(gE.first),gE.first);
-
-    }
-    cout<<"contained fragments "<<j<<std::endl;
-
-     j = 0;
-    for(auto& gE : b->neighbors)
-    {
-        j++;
-        //f->printVector(b->getNeighbors(gE.first),gE.first);
-
-    }
-    cout<<"vrhova "<<j<<std::endl;
-
-
-    cout<<"kapacitet edgeva "<<f->getNumberOfEdges2()<<std::endl;
-    cout<<"maksimalno susjeda "<<f->getMaxNeigbors()<<std::endl;
-    delete r;
-    delete f;
-    delete ter;
-    ter = NULL;
-    f=NULL;
-    r=NULL;*/
     return a.exec();
 }
 
