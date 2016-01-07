@@ -81,38 +81,26 @@ void LayoutWriter::writeGraph(string name)
           vector <int> read;
           vector<int>cycle;
           bool swich = false;
-        myfile << "ddddigraph G {\n";
+       // myfile << "ddddigraph G {\n";
         for(auto& gE : db->neighbors)
         {
-            rec(gE.second,&read,&cycle,gE.first,&k, true);
-            cycle.clear();
-            /*if(gE.second.size()==1)continue;
+            for (unsigned int i=0; i < gE.second.size(); i++)
+                makeEdge(gE.first,gE.second[i]);
 
-            for (unsigned int g; g<read.size();g++)
-                if(gE.first==read[g])
-                {
-                    swich = true;
-                    break;
-                }
-            if(swich)
-            {
-                swich = false;
-                continue;
-            }
-            read.push_back(gE.first);
-
-            for(unsigned int i=0; i< gE.second.size();i++)
-            {myfile << "\t"<<gE.first<<" -> "<<gE.second[i]<<";\n";k++;}
-            if (k>100) break;*/
         }
+
+
+        string wEdges = "";
+
 
         for(auto& gE: toWrite)
         {
             for (unsigned int z = 0; z< gE.second.size();z++)
-               myfile << "\t"<<gE.first<<" -> "<<gE.second[z]<<";\n";
+            {wEdges = wEdges + db->getEdge(gE.first,gE.second[z])->edgeInfo+"\n";k++;}
+               //myfile << "\t"<<gE.first<<" -> "<<gE.second[z]<<";\n";
         }
-        cout<<read.size()<<" "<<k<<std::endl;
-        myfile << "}\n";
+        //cout<<"read size "<<toWrite.size()<<" "<<k<<std::endl;
+        myfile << wEdges;
         myfile.close();
       }
       else cout << "Unable to open file";
