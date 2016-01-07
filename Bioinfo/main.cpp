@@ -20,34 +20,49 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    /*GraphReader *r = new GraphReader;
-    r->testGraphReader();
-    GraphChunker *ch = new GraphChunker;
-    ch ->ChunkGraph();
-    LayoutWriter *lw = new LayoutWriter;
-    lw->writeGraph(ch->chunks);
+    string overlaps="";
+    string reads = "";
+    string graph1 = "";
+    string constituents = "";
+    string graph = "";
+    int mode = 0;
+    int num = -1;
+    vector<string> chunkies;
 
-    delete r;
-    delete ch;
-    delete lw;*/
+    for(unsigned int i = 0; i < argc; i++)
+    {
+        if(i==1) overlaps += argv[i];
+        if(i==2) reads += argv[i];
+        if(i==3) graph1 += argv[i];
+        if(i==4) constituents += argv[i];
+        if(i==5) graph += argv[i];
+        if(i==6) mode = atoi(argv[i]);
+        if(i==7 && mode == 0) num = atoi(argv[i]);
+        if(i>6 && mode == 1) chunkies.push_back(argv[i]);
+    }
 
+    //for(auto & c: chunkies)
+    //cout<<c<<std::endl;
+    //cout<<reads<<std::endl;
+    //cout<<graph1<<std::endl;
 
 
     GeneralFunctions *f = new GeneralFunctions;
-    //f->inputControlGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.after_unitigger.mhap");
-   f->startGraph("/home/gongo/Desktop/bioinfoprojekt/overlaps.mhap","/home/gongo/Desktop/bioinfoprojekt/reads.fq");
+    f->startGraph(overlaps,reads);
     GraphChunker *ch = new GraphChunker;
-    ch ->ChunkGraph3();//(DataBase::getInstance()->neighbors);
+    ch ->ChunkGraph2();
     cout<<"nakon chunkanja ima: "<<ch->chunks.size()<<" chunkova."<<std::endl;
     LayoutWriter *lw = new LayoutWriter;
-    lw->writeGraph(ch->chunks);
-    lw->writeGraph("/home/gongo/Desktop/bioinfoprojekt/graph");
+    if(mode == 0)lw->writeGraph(ch->chunks, graph1, constituents, num);
+    if(mode == 1)lw->writeGraph(ch->chunks, graph1, constituents, chunkies);
+    lw->writeGraph(graph);
 
     delete ch;
     delete lw;
-   delete f;
+    delete f;
 
 
+    //this part just prints some statistics Not used in final version.
 
    /* cout<<"\n\nwhat do you want:\n 1. Read control graph\n 2. Quit."<<std::endl;
 

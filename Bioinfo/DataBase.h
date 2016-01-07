@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
+//this is a singleton class used as a "data base" where all the structures & functions
+// for access & work with these structures necessary for algorithm are contained.
 
 #include "MapEdge.h"
 
@@ -47,10 +49,10 @@ public:
     bool hasEdge(int idA,int idB);
 
 
-    unordered_map <string,MapEdge*> graphEdges;
-    unordered_map<int,vector<int>> neighbors;
-    unordered_map<int,string> v_strings;
-    unordered_map<int,vector<int>> containedFragments;
+    unordered_map <string,MapEdge*> graphEdges; //contains all ooriginal verlaps
+    unordered_map<int,vector<int>> neighbors; //containes all vertices + their neighbors. This is changed how each component of program removes stuff
+    unordered_map<int,string> v_strings; //here are dumped all strings of vertices that go in final stage (after contained edge removal & transitive edge removal
+    unordered_map<int,vector<int>> containedFragments; //list of all contained fragments
 
 
 

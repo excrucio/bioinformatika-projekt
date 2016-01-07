@@ -12,6 +12,7 @@
 //class where all "general" functions will be. Functions that print lists
 //print unordered_maps & such. Generally functions that we will use for debuuging & checking
 //if our functions are working properly
+//also here is function that starts the program, is called from main. Don't ask why this one is here it's an eye sore :D
 class GeneralFunctions
 {
 public:
@@ -23,7 +24,7 @@ public:
     int getNumberOfEdges2();
     int getNumberOfControlEdges2();
     int getMaxNeigbors();
-    void startGraph(std::string FileName, std::string FileNameReads);
+    void startGraph(std::string FileName, std::string FileNameReads); //starts program
     void inputControlGraph(std::string FileName);
     void differenceControlGraphVertex();
     void differencelGraphControlVertex();
@@ -39,3 +40,4 @@ public:
 };
 
 #endif // GENERALFUNCTIONS_H
+

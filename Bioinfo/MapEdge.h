@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+//this is just a class that is used as model class for all data that describes overlap.
+//Should have been a struct type of thing, but ended up as a class because it was difficult to change this afterwards :D
+
 class MapEdge
 {
 public:

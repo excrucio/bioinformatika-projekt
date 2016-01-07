@@ -106,22 +106,25 @@ void LayoutWriter::writeGraph(string name)
       else cout << "Unable to open file";
 }
 
-void LayoutWriter::writeGraph(vector<ChunkInfo *> chunks)
+void LayoutWriter::writeGraph(vector<ChunkInfo *> chunks,string graph1, string constituensts, int num)
 {
-    myfile.open("/home/gongo/Desktop/bioinfoprojekt/graph1.gfa");
+    myfile.open(graph1);
     ofstream myfile2;
-    myfile2.open("/home/gongo/Desktop/bioinfoprojekt/GraphConstituents.txt");
+    myfile2.open(constituensts);
     string vertices="";
     string edges="";
     string constituents="";
+    int number;
+    if(num == -1)number = chunks.size();
+    else number = num;
     int i = 0;
-    int lookup[] = {18,9,13,0, 75};
-    //while(i < 5)
+    //int lookup[] = {26,18,9,8,75,85,36,26,8,69,25,29,72,13,165,54,0,64,11,58,101,57,19,169,45,5,50,47,1,122,18,92,7,13,32,2};
+    //while(i < 36)
     //{
-    for(unsigned int j = 25; j < chunks.size(); j++ )
+    for(unsigned int j = 0; j < chunks.size(); j++ )
     {
         //string key = "Chunk" + to_string(lookup[i]);
-        //if (gE->id != key) continue;
+        //if (chunks[j]->id != key) continue;
         //if(gE->neighbors.size()==0)continue;
         vertices = vertices + "S\t" + chunks[j]->id +"\t"+ chunks[j]->chunkedString+ "\tLC:i:"+to_string(chunks[j]->cMap)+"\n";
         constituents = constituents + chunks[j]->id +"\n[ ";
@@ -136,12 +139,60 @@ void LayoutWriter::writeGraph(vector<ChunkInfo *> chunks)
         }
         constituents = constituents + " ]\n\n";
         i++;
+        //j = 0;
 
-        if(i>5)break;
+       if(i>number)break;
 
     }
-   //i++;
-    //}
+
+    myfile<<vertices;
+    myfile<<edges;
+    myfile2<<constituents<<std::endl;
+    myfile.close();
+    myfile2.close();
+
+
+
+}
+
+void LayoutWriter::writeGraph(vector<ChunkInfo *> chunks,string graph1, string constituensts, vector<string> chunkies)
+{
+    myfile.open(graph1);
+    ofstream myfile2;
+    myfile2.open(constituensts);
+    string vertices="";
+    string edges="";
+    string constituents="";
+
+    int i = 0;
+    //int lookup[] = {26,18,9,8,75,85,36,26,8,69,25,29,72,13,165,54,0,64,11,58,101,57,19,169,45,5,50,47,1,122,18,92,7,13,32,2};
+    while(i < chunkies.size())
+{
+    for(unsigned int j = 0; j < chunks.size(); j++ )
+    {
+        string key = "Chunk" + chunkies[i];
+        if (chunks[j]->id != key) continue;
+        //if(gE->neighbors.size()==0)continue;
+        vertices = vertices + "S\t" + chunks[j]->id +"\t"+ chunks[j]->chunkedString+ "\tLC:i:"+to_string(chunks[j]->cMap)+"\n";
+        constituents = constituents + chunks[j]->id +"\n[ ";
+
+        for (unsigned int i = 0; i< chunks[j]->neighbors.size();i++)
+          edges = edges + "L\t" + chunks[j]->id + "\t+\t" +chunks[j]->neighbors[i] + "\t+\t1M1D2M1S\n";
+
+        for (unsigned int i = 0; i< chunks[j]->constituents.size();i++)
+        {
+            constituents = constituents + chunks[j]->constituents[i];
+            if(i!=(chunks[j]->constituents.size()-1))  constituents =  constituents + ", ";
+        }
+        constituents = constituents + " ]\n\n";
+        //i++;
+        //j = 0;
+
+       //if(i>number)break;
+
+    }
+i++;
+}
     myfile<<vertices;
     myfile<<edges;
     myfile2<<constituents<<std::endl;
@@ -231,5 +282,4 @@ void LayoutWriter::makeEdge(int idA, int idB)
     }
 
 }
-
 

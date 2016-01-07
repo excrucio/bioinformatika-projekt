@@ -139,8 +139,3 @@ void TransitiveEdgeRemover::printReduce()
     delete f;
     f = NULL;
 }
-
-
-
-
-
