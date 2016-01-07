@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     GeneralFunctions *f = new GeneralFunctions;
     f->startGraph(overlaps,reads);
     GraphChunker *ch = new GraphChunker;
-    ch ->ChunkGraph2();
+    ch->ChunkGraph2();
     cout<<"nakon chunkanja ima: "<<ch->chunks.size()<<" chunkova."<<std::endl;
     LayoutWriter *lw = new LayoutWriter;
     if(mode == 0)lw->writeGraph(ch->chunks, graph1, constituents, num);

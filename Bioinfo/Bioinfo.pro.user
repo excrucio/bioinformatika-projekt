@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2016-01-05T00:53:48. -->
+<!-- Written by QtCreator 3.5.1, 2016-01-07T23:14:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -239,9 +239,9 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Bioinfo</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Bioinfo2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/gongo/Desktop/bioinfoprojekt/bioGit/bioinformatika/Bioinfo/Bioinfo.pro</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/gongo/Desktop/bio/bioinformatika/Bioinfo/Bioinfo.pro</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">/home/gongo/Desktop/bioinfoprojekt/overlaps.mhap /home/gongo/Desktop/bioinfoprojekt/reads.fq /home/gongo/Desktop/bioinfoprojekt/graph1.gfa /home/gongo/Desktop/bioinfoprojekt/GraphConstituents.txt /home/gongo/Desktop/bioinfoprojekt/graph 0 -1 18 92 7 13</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">Bioinfo.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
