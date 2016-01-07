@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <unordered_map>
+#include <GraphChunker.h>
 using namespace std;
 
 class LayoutWriter
@@ -15,6 +16,7 @@ public:
 
     void writeGraph(string name);
     void writeGraph2(string name);
+    void writeGraph(vector<ChunkInfo*> chunks);
     bool contain(vector<int> *V, int item);
     void rec(vector<int> V, vector <int> *read, vector<int> *cycle, int parent, int *k, bool swich1);
     ofstream myfile;
