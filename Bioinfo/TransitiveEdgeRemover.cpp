@@ -13,7 +13,7 @@ TransitiveEdgeRemover::~TransitiveEdgeRemover(){}
 
 int TransitiveEdgeRemover::presentVertex = 0;
 int TransitiveEdgeRemover::FUZZ = 30;
-float TransitiveEdgeRemover::err = 0.3;
+float TransitiveEdgeRemover::err = 0.2;
 
 void TransitiveEdgeRemover::sortNeighbors()
 {
@@ -58,6 +58,7 @@ void TransitiveEdgeRemover::setReduce(std::vector<int> neighbors, int vert)
 
 void TransitiveEdgeRemover::removeTransitiveEdges()
 {
+
     sortNeighbors();
     initiateStructures();
 
