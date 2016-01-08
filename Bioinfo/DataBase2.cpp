@@ -1,5 +1,7 @@
 #include "DataBase2.h"
 
+//this class is not used. Just here for internal testing of main program.
+
 DataBase2::DataBase2(){}
 
 bool DataBase2::instanceFlag = false;

@@ -2,6 +2,8 @@
 #define DATABASE2_H
 
 
+//this class is not used. Just here for internal testing of main program.
+
 #include <iostream>
 #include <unordered_map>
 #include <vector>

@@ -1,5 +1,6 @@
 #ifndef GraphReader2_H
 #define GraphReader2_H
+//this class is not used. Just here for internal testing of main program.
 
 #include <iostream>
 

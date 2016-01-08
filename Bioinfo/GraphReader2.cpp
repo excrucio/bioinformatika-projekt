@@ -4,6 +4,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
+//this class is not used. Just here for internal testing of main program.
 
 #include "GraphReader2.h"
 #include "DataBase2.h"

@@ -18,7 +18,6 @@ SOURCES += main.cpp \
     DataBase2.cpp \
     GraphReader2.cpp \
     GraphChunker.cpp \
-    GraphChunker.cpp
 
 HEADERS += \
     MapEdge.h \
@@ -29,6 +28,5 @@ HEADERS += \
     GeneralFunctions.h \
     DataBase2.h \
     GraphReader2.h \
-    GraphChunker.h \
     GraphChunker.h
 
