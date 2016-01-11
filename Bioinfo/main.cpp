@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <sys/time.h>
 
 
 #include "GraphReader.h"
@@ -15,10 +16,13 @@
 #include "DataBase2.h"
 
 
-
 int main(int argc, char *argv[])
 {
+    //start mjerenja
+    double start = clock();
+
     QCoreApplication a(argc, argv);
+    int brojac = 1;
 
     string overlaps="";
     string reads = "";
@@ -47,10 +51,16 @@ int main(int argc, char *argv[])
     //cout<<graph1<<std::endl;
 
 
-    GeneralFunctions *f = new GeneralFunctions;    
+    GeneralFunctions *f = new GeneralFunctions;
     f->startGraph(overlaps,reads);
+
+    double lap1 = clock();
+
     GraphChunker *ch = new GraphChunker;
     ch ->ChunkGraph2();
+
+    double lap2 = clock();
+
     cout<<"nakon chunkanja ima: "<<ch->chunks.size()<<" chunkova."<<std::endl;
     LayoutWriter *lw = new LayoutWriter;
     if(mode == 0)lw->writeGraph(ch->chunks, graph1, constituents, num);
@@ -134,8 +144,18 @@ int main(int argc, char *argv[])
 
     }*/
 
+    // kraj mjerenja
+    double end=clock();
+    //ispis mjerenja
+    cout<<"\nTrajanja programa:"<<std::endl;
+    cout<<"Ucitavanje i edge removing: "<<(double)(lap1-start)/(double)CLOCKS_PER_SEC<<" s"<<std::endl;
+    cout<<"Chunker: "<<(double)(lap2-lap1)/(double)CLOCKS_PER_SEC<<" s"<<std::endl;
+    cout<<"Ispis rezultata u datoteke: "<<(double)(end-lap2)/(double)CLOCKS_PER_SEC<<" s"<<std::endl;
+    cout<<"Ukupno vrijeme: "<<(double)(double)(end-start)/(double)CLOCKS_PER_SEC<<" s"<<std::endl;
+
     exit(0);
 
     return a.exec();
+
 }
 

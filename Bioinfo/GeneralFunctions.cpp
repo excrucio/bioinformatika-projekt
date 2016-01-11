@@ -82,8 +82,15 @@ void GeneralFunctions::startGraph(string fileName, string fileNameReads)
     DataBase *b = DataBase::getInstance();
     GraphReader *r = new GraphReader;
 
+    //start mjerenja
+    double start = clock();
+
     cout<<"reading input"<<std::endl;
     r->read(fileName, fileNameReads);
+
+    //prvi break
+    double lap1 = clock();
+    cout<<"\nVrijeme ucitavanja: "<<(double)(lap1-start)/(double)CLOCKS_PER_SEC<<" s"<<std::endl<<std::endl;
 
     cout<<"finished redaing, starting to remove contained edges:"<<std::endl;
     cout<<"contained fragments: "<<b->containedFragments.size()<<std::endl;
@@ -94,6 +101,11 @@ void GeneralFunctions::startGraph(string fileName, string fileNameReads)
     cout<<"broj edgeva prije transitiva: "<<getNumberOfEdges2()<<std::endl;
     int j = b->neighbors.size();
 
+    //drugi break
+    double lap2 = clock();
+    cout<<"\nVrijeme CointainedEdgeRemover-a: "<<(double)(lap2-lap1)/(double)CLOCKS_PER_SEC<<" s"<<std::endl<<std::endl;
+
+
     TransitiveEdgeRemover *ter = new TransitiveEdgeRemover;
     cout<<"Removing transitive edges."<<std::endl;
     ter->removeTransitiveEdges();
@@ -102,6 +114,10 @@ void GeneralFunctions::startGraph(string fileName, string fileNameReads)
     cout<<"vrhova nakon brisanja transitiva: "<<b->neighbors.size()<<std::endl;
     cout<<"pobrisano je "<< j - b->neighbors.size()<<" vrhova."<<std::endl;
     cout<<"broj edgeva nakon transitive removera: "<<getNumberOfEdges2()<<std::endl;
+
+    //kraj mjerenja odjeljka
+    double end = clock();
+    cout<<"\nVrijeme TransitiveEdgeRemover-a: "<<(double)(end-lap2)/(double)CLOCKS_PER_SEC<<" s"<<std::endl<<std::endl;
 
     cout<<"pocinjem chunkanje:"<<std::endl;
 

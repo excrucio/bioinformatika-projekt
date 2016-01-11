@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -m32 -pipe -std=c++11 -g -std=c++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -m32 -pipe -g -std=c++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I../Bioinfo -I. -I/opt/Qt5.5.1/5.5/gcc/include -I/opt/Qt5.5.1/5.5/gcc/include/QtCore -I. -I/opt/Qt5.5.1/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /opt/Qt5.5.1/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
@@ -54,14 +54,20 @@ SOURCES       = ../Bioinfo/main.cpp \
 		../Bioinfo/LayoutWriter.cpp \
 		../Bioinfo/TransitiveEdgeRemover.cpp \
 		../Bioinfo/DataBase.cpp \
-		../Bioinfo/GeneralFunctions.cpp 
+		../Bioinfo/GeneralFunctions.cpp \
+		../Bioinfo/DataBase2.cpp \
+		../Bioinfo/GraphReader2.cpp \
+		../Bioinfo/GraphChunker.cpp 
 OBJECTS       = main.o \
 		MapEdge.o \
 		GraphReader.o \
 		LayoutWriter.o \
 		TransitiveEdgeRemover.o \
 		DataBase.o \
-		GeneralFunctions.o
+		GeneralFunctions.o \
+		DataBase2.o \
+		GraphReader2.o \
+		GraphChunker.o
 DIST          = /opt/Qt5.5.1/5.5/gcc/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.1/5.5/gcc/mkspecs/common/unix.conf \
 		/opt/Qt5.5.1/5.5/gcc/mkspecs/common/linux.conf \
@@ -200,13 +206,19 @@ DIST          = /opt/Qt5.5.1/5.5/gcc/mkspecs/features/spec_pre.prf \
 		../Bioinfo/LayoutWriter.h \
 		../Bioinfo/TransitiveEdgeRemover.h \
 		../Bioinfo/DataBase.h \
-		../Bioinfo/GeneralFunctions.h ../Bioinfo/main.cpp \
+		../Bioinfo/GeneralFunctions.h \
+		../Bioinfo/DataBase2.h \
+		../Bioinfo/GraphReader2.h \
+		../Bioinfo/GraphChunker.h ../Bioinfo/main.cpp \
 		../Bioinfo/MapEdge.cpp \
 		../Bioinfo/GraphReader.cpp \
 		../Bioinfo/LayoutWriter.cpp \
 		../Bioinfo/TransitiveEdgeRemover.cpp \
 		../Bioinfo/DataBase.cpp \
-		../Bioinfo/GeneralFunctions.cpp
+		../Bioinfo/GeneralFunctions.cpp \
+		../Bioinfo/DataBase2.cpp \
+		../Bioinfo/GraphReader2.cpp \
+		../Bioinfo/GraphChunker.cpp
 QMAKE_TARGET  = Bioinfo
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Bioinfo
@@ -522,8 +534,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Bioinfo/MapEdge.h ../Bioinfo/GraphReader.h ../Bioinfo/LayoutWriter.h ../Bioinfo/TransitiveEdgeRemover.h ../Bioinfo/DataBase.h ../Bioinfo/GeneralFunctions.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Bioinfo/main.cpp ../Bioinfo/MapEdge.cpp ../Bioinfo/GraphReader.cpp ../Bioinfo/LayoutWriter.cpp ../Bioinfo/TransitiveEdgeRemover.cpp ../Bioinfo/DataBase.cpp ../Bioinfo/GeneralFunctions.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Bioinfo/MapEdge.h ../Bioinfo/GraphReader.h ../Bioinfo/LayoutWriter.h ../Bioinfo/TransitiveEdgeRemover.h ../Bioinfo/DataBase.h ../Bioinfo/GeneralFunctions.h ../Bioinfo/DataBase2.h ../Bioinfo/GraphReader2.h ../Bioinfo/GraphChunker.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Bioinfo/main.cpp ../Bioinfo/MapEdge.cpp ../Bioinfo/GraphReader.cpp ../Bioinfo/LayoutWriter.cpp ../Bioinfo/TransitiveEdgeRemover.cpp ../Bioinfo/DataBase.cpp ../Bioinfo/GeneralFunctions.cpp ../Bioinfo/DataBase2.cpp ../Bioinfo/GraphReader2.cpp ../Bioinfo/GraphChunker.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -618,9 +630,11 @@ main.o: ../Bioinfo/main.cpp /opt/Qt5.5.1/5.5/gcc/include/QtCore/QCoreApplication
 		../Bioinfo/GraphReader.h \
 		../Bioinfo/TransitiveEdgeRemover.h \
 		../Bioinfo/LayoutWriter.h \
+		../Bioinfo/GraphChunker.h \
 		../Bioinfo/DataBase.h \
 		../Bioinfo/MapEdge.h \
-		../Bioinfo/GeneralFunctions.h
+		../Bioinfo/GeneralFunctions.h \
+		../Bioinfo/DataBase2.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Bioinfo/main.cpp
 
 MapEdge.o: ../Bioinfo/MapEdge.cpp ../Bioinfo/MapEdge.h
@@ -628,10 +642,15 @@ MapEdge.o: ../Bioinfo/MapEdge.cpp ../Bioinfo/MapEdge.h
 
 GraphReader.o: ../Bioinfo/GraphReader.cpp ../Bioinfo/GraphReader.h \
 		../Bioinfo/DataBase.h \
-		../Bioinfo/MapEdge.h
+		../Bioinfo/MapEdge.h \
+		../Bioinfo/TransitiveEdgeRemover.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GraphReader.o ../Bioinfo/GraphReader.cpp
 
-LayoutWriter.o: ../Bioinfo/LayoutWriter.cpp ../Bioinfo/LayoutWriter.h
+LayoutWriter.o: ../Bioinfo/LayoutWriter.cpp ../Bioinfo/LayoutWriter.h \
+		../Bioinfo/GraphChunker.h \
+		../Bioinfo/DataBase.h \
+		../Bioinfo/MapEdge.h \
+		../Bioinfo/DataBase2.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LayoutWriter.o ../Bioinfo/LayoutWriter.cpp
 
 TransitiveEdgeRemover.o: ../Bioinfo/TransitiveEdgeRemover.cpp ../Bioinfo/TransitiveEdgeRemover.h \
@@ -644,8 +663,30 @@ DataBase.o: ../Bioinfo/DataBase.cpp ../Bioinfo/DataBase.h \
 		../Bioinfo/MapEdge.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DataBase.o ../Bioinfo/DataBase.cpp
 
-GeneralFunctions.o: ../Bioinfo/GeneralFunctions.cpp ../Bioinfo/GeneralFunctions.h
+GeneralFunctions.o: ../Bioinfo/GeneralFunctions.cpp ../Bioinfo/GeneralFunctions.h \
+		../Bioinfo/DataBase.h \
+		../Bioinfo/MapEdge.h \
+		../Bioinfo/DataBase2.h \
+		../Bioinfo/GraphReader.h \
+		../Bioinfo/GraphReader2.h \
+		../Bioinfo/TransitiveEdgeRemover.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GeneralFunctions.o ../Bioinfo/GeneralFunctions.cpp
+
+DataBase2.o: ../Bioinfo/DataBase2.cpp ../Bioinfo/DataBase2.h \
+		../Bioinfo/MapEdge.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DataBase2.o ../Bioinfo/DataBase2.cpp
+
+GraphReader2.o: ../Bioinfo/GraphReader2.cpp ../Bioinfo/GraphReader2.h \
+		../Bioinfo/DataBase2.h \
+		../Bioinfo/MapEdge.h \
+		../Bioinfo/TransitiveEdgeRemover.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GraphReader2.o ../Bioinfo/GraphReader2.cpp
+
+GraphChunker.o: ../Bioinfo/GraphChunker.cpp ../Bioinfo/GraphChunker.h \
+		../Bioinfo/DataBase.h \
+		../Bioinfo/MapEdge.h \
+		../Bioinfo/GeneralFunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GraphChunker.o ../Bioinfo/GraphChunker.cpp
 
 ####### Install
 
