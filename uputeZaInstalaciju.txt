@@ -1,0 +1,29 @@
+Program se instalira tako da iz commandline-a napisete:
+qmake Bioinfo.pro
+make
+
+
+POKRETANJE
+
+overlaps - put do datoteke gdje su pohranjeni overlapi. U .mhap formatu
+reads - put do datoteke u kojoj su pohranjene sekvence fragmenata. U .fq formatu
+result1 - put do prve rezultantne datoteke. To su zapisani rezultatni podaci o grafu. U .gfa obliku.
+result2 - put do druge rezultantne datoteke. Sastoji se od pregleda pojedinih "chunk-ova" i fragmenata koji ih sacinjavaju
+result3 - put do trece rezultantne datoteke. Ispisuje sve prezivjele overlape. U .mhap obliku
+
+
+Pokrece se sa:
+
+./Bioinfo overlaps reads result1 result2 result3 0 -1
+
+Ova naredba ispisuje sve "chunkove"
+
+
+./Bioinfo overlaps reads result1 result2 result3 0 30
+Ovo ispisuje prvih 30 najvecih chunkova
+
+
+./Bioinfo overlaps reads result1 result2 result3 1 4 5 67 89
+Ovo, npr. ispisuje samo chunkove 4, 5, 67 i 89 upravo tim redosljedom
+
+
